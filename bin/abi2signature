@@ -40,7 +40,7 @@ async function main() {
                 }
 
                 signature = web3.eth.abi.encodeFunctionSignature(abiFunction)
-                console.log(signature, "->", "[", abiFunction.type, "]", abiFunction.name)
+                console.log(signature, "->", "[", abiFunction.type, "]", web3.utils._jsonInterfaceMethodToString(abiFunction))
             }
             break
         default:
@@ -53,8 +53,13 @@ async function main() {
                     continue
                 }
 
-                signature = web3.eth.abi.encodeFunctionSignature(abiFunction)
-                console.log(signature, "->", "[", abiFunction.type, "]", abiFunction.name)
+                var signature;
+                if('event' === abiFunction.type) {
+                    signature = web3.eth.abi.encodeEventSignature(abiFunction)
+                } else {
+                    signature = web3.eth.abi.encodeFunctionSignature(abiFunction)
+                }
+                console.log(signature, "->", "[", abiFunction.type, "]", web3.utils._jsonInterfaceMethodToString(abiFunction))
             }
     }
 }
